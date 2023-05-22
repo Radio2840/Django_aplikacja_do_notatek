@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .form import NoteForm
 from .models import Note
 
@@ -21,3 +21,7 @@ def create_note(request):
     else:
         form = NoteForm()
     return render(request, 'notes/create_note.html', {'form': form} )
+
+def note_detail(request, year, month, day):
+    note = get_object_or_404(Note, status='published', publish__year=year, publish__month=month, publish__day=day)
+    return render(request, 'blog/post/detail.html', {'note': note})
