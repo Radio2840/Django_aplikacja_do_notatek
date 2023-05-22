@@ -20,4 +20,4 @@ def create_note(request):
             return redirect('notes_list')
     else:
         form = NoteForm()
-    return render(request, 'notes/create_note.html', {'form': form})
+    return render(request, 'notes/create_note.html', {'form': form} )
