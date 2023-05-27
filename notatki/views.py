@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.views.generic import ListView, DetailView
 
 from .form import NoteForm
 from .models import Note
@@ -8,9 +9,9 @@ from .models import Note
 
 
 
-def note_list(request):
-    notes = Note.objects.all()
-    return render(request, 'notes/note_list.html', {'notes': notes})
+#def note_list(request):
+#    notes = Note.objects.all()
+#    return render(request, 'notes/note_list.html', {'notes': notes})
 
 
 def create_note(request):
@@ -25,9 +26,19 @@ def create_note(request):
         form = NoteForm()
     return render(request, 'notes/create_note.html', {'form': form} )
 
-def note_detail(request, year, month, day):
-    note = get_object_or_404(Note, status='published', publish__year=year, publish__month=month, publish__day=day)
-    return render(request, 'blog/post/detail.html', {'note': note})
+
+def note_detail(request, year,month,day,note):
+    note = get_object_or_404(Note, slug=note,
+                             created__year=year,
+                             created__month=month,
+                             created__day=day)
+    return render(request, 'detail.html', {'note': note})
+
+#class NoteDetailView(DetailView):
+#    model = Note
+#    context_object_name = 'note'
+#   template_name = 'detail.html'
+
 
 def edit_note(request, note_id):
     note = get_object_or_404(Note, pk=note_id)
@@ -41,3 +52,9 @@ def edit_note(request, note_id):
 
     context = {'form': form}
     return render(request, 'notes/edit_note.html', context)
+
+class NotesListView(ListView):
+    queryset = Note.objects.all()
+    context_object_name = 'note'
+    paginate_by = 4
+    template_name = 'lista_notatek.html'
