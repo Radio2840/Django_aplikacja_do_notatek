@@ -1,3 +1,4 @@
+from django.views.generic.edit import DeleteVie
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -58,3 +59,9 @@ class NotesListView(ListView):
     context_object_name = 'note'
     paginate_by = 4
     template_name = 'lista_notatek.html'
+    
+    
+class UsunNotatke(DeleteView):
+    model = Note
+    success_url = reverse_lazy('lista_notatek')
+    template_name_suffix = '_usun'
