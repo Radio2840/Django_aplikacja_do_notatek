@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'notatki.apps.NotatkiConfig',
     #'bootstrap5',
     'bootstrap',
+    'fontawesome',
 ]
 
 MIDDLEWARE = [
